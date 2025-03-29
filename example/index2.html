@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <img src="DSCN0614_small.jpg" id="img1" />
+    <pre>Make and model: <span id="makeAndModel"></span></pre>
+    <br/>
+    <img src="Bush-dog.jpg" id="img2" />
+    <pre id="allMetaDataSpan"></pre>
+    <br/>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <br/><br/>
+
+    <script type="text/javascript" src="../exif.js"></script>
+    <script>
+        window.onload=getExif;
+
+        // TODO: Why is NOT able to display it?
+        // Add event listener for file input
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Create a new image element with the uploaded file
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        // You can process the uploaded image with EXIF.js here
+                        EXIF.getData(img, function() {
+                            var allMetaData = EXIF.getAllTags(this);
+                            var allMetaDataSpan = document.getElementById("allMetaDataSpan");
+                            allMetaDataSpan.innerHTML = JSON.stringify(allMetaData, null, "\t");
+                        });
+                    };
+                    // Add the new image to the page if desired
+                    document.body.appendChild(img);
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        function getExif() {
+            var img1 = document.getElementById("img1");
+            EXIF.getData(img1, function() {
+                var make = EXIF.getTag(this, "Make");
+                var model = EXIF.getTag(this, "Model");
+                var makeAndModel = document.getElementById("makeAndModel");
+                makeAndModel.innerHTML = `${make} ${model}`;
+            });
+
+            var img2 = document.getElementById("img2");
+            EXIF.getData(img2, function() {
+                var allMetaData = EXIF.getAllTags(this);
+                var allMetaDataSpan = document.getElementById("allMetaDataSpan");
+                allMetaDataSpan.innerHTML = JSON.stringify(allMetaData, null, "\t");
+            });
+        }
+    </script>
+</body>
+</html>
