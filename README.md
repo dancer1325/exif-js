@@ -31,3 +31,7 @@
       <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
       ```
   * call `EXIF.getData()`
+
+## Examples
+* [index.html](index.html)
+* [index here](example)
