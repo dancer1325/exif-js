@@ -7,7 +7,7 @@
       * recommendations
         * if you want to access the image / aforementioned metadata -> use `this`  
     * requirements
-      * load COMPLETELY the image BEFORE
+      * ⚠️load COMPLETELY the image BEFORE ⚠️
         * OTHERWISE, it will fail
         * ways
           * run your exif-extracting logic | 
